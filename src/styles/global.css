@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%; /* 1rem = 10px */
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size:1.6rem;
+    background: var(--gray-900);
+    color: var(--text-default);
+}
+
+h1{
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+    align-items: center;
+    justify-content: center;
+
+}
+.formRow{
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+    align-items: center;
+    justify-content: center;
+}
