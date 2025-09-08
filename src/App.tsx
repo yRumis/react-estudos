@@ -1,11 +1,10 @@
-import { Home } from './pages/Home';
+import "./styles/theme.css";
+import "./styles/global.css";
 
-import './styles/theme.css'
-import './styles/global.css'
-// import { NotFound } from './pages/NoutFound';
+import { Home } from "./pages/Home";
+// import { AboutPomodoro } from "./pages/AboutPomodoro";
+// import { NotFound } from './pages/NotFound';
 
 export function App() {
-  return (
-   <Home/>
-  );
+  return <Home />;
 }
