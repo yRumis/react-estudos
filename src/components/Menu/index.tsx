@@ -17,6 +17,7 @@ export function Menu() {
     setTheme(newTheme);
 }
 
+// o ('theme') seria a chave do localStorage e o theme o valor.
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
