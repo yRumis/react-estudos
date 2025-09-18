@@ -5,13 +5,20 @@ import { DefaultInput } from "../DefaultInput";
 import {useRef} from "react";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import type { TaskModel } from "../../models/TaskModel";
+import { getNextCycle } from "../../utils/getNextCycle";
+import { getNextCycleType } from "../../utils/getNextCycleType";
+import { formatSecondsTolMinutes } from "../../utils/formatSecondsToMinutes";
 
 export function MainForm() {
 
-  const {setState} = useTaskContext();
+  const {state, setState} = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
 
-      function handleCreateNewTask(event: React.FormEvent){
+// ciclos
+    const nextCycle = getNextCycle(state.currentCycle);
+    const nextCycleType = getNextCycleType(nextCycle); 
+
+    function handleCreateNewTask(event: React.FormEvent){
       event.preventDefault();
 
       if(taskNameInput.current === null )return;
@@ -29,19 +36,19 @@ export function MainForm() {
         startDate: Date.now(),
         completed:null,
         interupted:null,
-        duration: 0,
-        type: "workTime"
+        duration: state.config[nextCycleType], // convertendo para minutos
+        type: nextCycleType
       }
 
-      const secondsRemaning = newTask.duration * 60;
+      const secondsRemaning = newTask.duration * 60; // convertendo para segundos
 
       setState( prevState => {
         return {
           ...prevState,
           activeTask: newTask,
-          currentCycle: 1,
+          currentCycle: nextCycle,
           secondsRemaning,
-          formatedSecondsRemaning: "00:00",
+          formatedSecondsRemaning: formatSecondsTolMinutes(secondsRemaning),
           tasks: [...prevState.tasks, newTask]
         }
       })
@@ -52,7 +59,6 @@ export function MainForm() {
 
     return (
       <form onSubmit={handleCreateNewTask} className="form" action="">
-        <h1>{}</h1>
           <div className='formRow'>
             <DefaultInput 
             id="meuInput" 
@@ -67,9 +73,11 @@ export function MainForm() {
             <p>Lorem ipsum dolor sit amet.</p>
           </div>
 
-          <div className='formRow'>
-            <Cycles/>
-          </div>
+          {state.currentCycle > 0 && (
+            <div className='formRow'>
+              <Cycles/>
+            </div>
+          )}
 
           <div className='formRow'>
             <DefaultButton icon={<PlayCircleIcon />} color="green"/>
